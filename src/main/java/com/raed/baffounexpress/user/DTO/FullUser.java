@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.raed.baffounexpress.user.entities.User;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class FullUser implements UserDetails {
     private Long id;
     private String firstName;
@@ -37,7 +39,7 @@ public class FullUser implements UserDetails {
     private boolean accountBanned;
     private GrantedAuthority authority;
 
-    public static FullUser build(User user) {
+    public static FullUser construct(User user) {
         GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().name());
         return new FullUser(
             user.getId(),

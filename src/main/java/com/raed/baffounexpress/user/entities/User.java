@@ -34,7 +34,7 @@ public class User {
     private String phone;
     private String photo;
     private boolean enabled;
-    private boolean accountNonLocked;
+    private boolean accountNonLocked = true;
     private boolean accountBanned;
 
 }

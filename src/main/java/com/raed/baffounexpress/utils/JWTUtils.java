@@ -25,7 +25,9 @@ public class JWTUtils {
     private String jwtSecret;
 
     @Value("${bezkoder.app.jwtExpirationMs}")
-    private int jwtExpirationMs;
+    private Long jwtExpirationMs;
+    @Value("${bezkoder.app.jwtRefreshExpirationMs}")
+    private Long jwtRefreshExpirationMs;
 
     public Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
@@ -37,6 +39,11 @@ public class JWTUtils {
         return Jwts.builder().issuedAt(new Date()).subject(user.getUsername())
                 .expiration(new Date((new Date()).getTime() + jwtExpirationMs)).signWith(key()).compact();
 
+    }
+    public String signRefreshToken(Authentication auth) {
+        FullUser user = (FullUser) auth.getPrincipal();
+        return Jwts.builder().issuedAt(new Date()).subject(user.getUsername())
+                .expiration(new Date((new Date()).getTime() + jwtRefreshExpirationMs)).signWith(key()).compact();
     }
 
     public String extractUsernameFromToken(String token) {
